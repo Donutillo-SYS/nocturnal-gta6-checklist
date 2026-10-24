@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOCTURNAL - GTA VI Progress Tracker & Checklist</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Montserrat & Orbitron -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;0,900;1,900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        noc: {
+                            peach: '#ffab5e',
+                            orange: '#ff8c52',
+                            pink: '#c2538b',
+                            magenta: '#9b3070',
+                            purple: '#4a478a',
+                            indigo: '#312c66',
+                            dark: '#120c24',
+                            panel: 'rgba(22, 14, 40, 0.82)',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon-peach': '0 0 25px rgba(255, 171, 94, 0.5)',
+                        'neon-pink': '0 0 25px rgba(194, 83, 139, 0.55)',
+                        'neon-purple': '0 0 25px rgba(74, 71, 138, 0.55)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* GTA VI Sunset Key Art Background */
+        body {
+            background-color: #120c24;
+            background-image: 
+                linear-gradient(rgba(18, 12, 36, 0.55), rgba(18, 12, 36, 0.75)),
+                url('https://images.alphacoders.com/134/1342689.jpeg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism containers */
+        .glass-panel {
+            background: rgba(22, 14, 40, 0.84);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 171, 94, 0.2);
+        }
+
+        .glass-card {
+            background: rgba(36, 20, 60, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.25s ease-in-out;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 171, 94, 0.6);
+            transform: translateY(-1px) scale(1.005);
+            box-shadow: 0 10px 25px rgba(18, 12, 36, 0.7);
+        }
+
+        /* NOCTURNAL Sunset Gradient Text */
+        .nocturnal-text-gradient {
+            background: linear-gradient(135deg, #ffab5e 0%, #c2538b 50%, #7d4999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(255, 171, 94, 0.4));
+        }
+
+        .nocturnal-subtitle-gradient {
+            background: linear-gradient(135deg, #ff8c52 0%, #c2538b 60%, #4a478a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #120c24;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c2538b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffab5e;
+        }
+
+        /* Custom Checkbox Animation */
+        .checkbox-custom {
+            transition: all 0.2s ease;
+        }
+        input:checked + .checkbox-custom {
+            background: linear-gradient(135deg, #ffab5e, #c2538b);
+            border-color: #ffab5e;
+        }
+    </style>
+</head>
+<body class="text-gray-100 font-sans pb-12 select-none">
+
+    <!-- Header Section -->
+    <header class="relative z-10 pt-8 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col items-center text-center">
+            
+            <!-- Logo Container -->
+            <div class="mb-4 transform hover:scale-105 transition-transform duration-300">
+                <svg width="180" height="180" viewBox="0 0 200 200" class="drop-shadow-[0_0_35px_rgba(255,171,94,0.65)]" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Sunset Outer Frame Gradient -->
+                        <linearGradient id="exactFrameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#f89252"/>
+                            <stop offset="35%" stop-color="#cf508c"/>
+                            <stop offset="70%" stop-color="#733b82"/>
+                            <stop offset="100%" stop-color="#3c316d"/>
+                        </linearGradient>
+
+                        <!-- Inner Cutout Shadow Filter -->
+                        <filter id="innerCutoutShadow" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.6"/>
+                        </filter>
+
+                        <!-- White Glow Effect for N -->
+                        <filter id="pureWhiteGlow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="3" result="glow"/>
+                            <feMerge>
+                                <feMergeNode in="glow"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Outer Frame -->
+                    <rect x="8" y="8" width="184" height="184" rx="32" fill="url(#exactFrameGradient)" />
+
+                    <!-- Inner Dark Inset Box -->
+                    <rect x="32" y="32" width="136" height="136" rx="12" fill="#110a20" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5" filter="url(#innerCutoutShadow)" />
+
+                    <!-- Pure White Central NOCTURNAL 'N' -->
+                    <path d="M 52 50 
+                             H 82 
+                             V 62 
+                             H 74 
+                             V 138 
+                             H 82 
+                             V 150 
+                             H 52 
+                             V 138 
+                             H 60 
+                             V 62 
+                             H 52 
+                             Z 
+                             M 60 50 
+                             H 80 
+                             L 122 138 
+                             V 50 
+                             H 148 
+                             V 150 
+                             H 122 
+                             L 68 50 
+                             Z"
+                          fill="#ffffff"
+                          filter="url(#pureWhiteGlow)" />
+                </svg>
+            </div>
+
+            <!-- Title & Subtitle -->
+            <h1 class="text-5xl sm:text-7xl font-black tracking-tight italic font-sans mb-1">
+                <span class="nocturnal-text-gradient uppercase tracking-widest">NOCTURNAL</span>
+            </h1>
+            <p class="text-lg sm:text-2xl font-display font-extrabold nocturnal-subtitle-gradient tracking-widest uppercase mb-6">
+                VI CHECKLIST & TRACKER
+            </p>
+
+            <!-- Overall Progress Bar Container -->
+            <div class="w-full max-w-2xl mx-auto glass-panel p-6 rounded-2xl shadow-neon-pink border-noc-pink/40 relative overflow-hidden">
+                <div class="flex justify-between items-end mb-2">
+                    <div class="text-left">
+                        <span class="text-xs text-gray-300 font-bold uppercase tracking-wider block">Total Game Completion</span>
+                        <span id="progress-text" class="text-2xl sm:text-3xl font-display font-black text-white">0 / 0</span>
+                    </div>
+                    <div class="text-right">
+                        <span id="progress-percent" class="text-3xl sm:text-4xl font-display font-black text-noc-peach">0%</span>
+                    </div>
+                </div>
+
+                <!-- Progress Bar Track -->
+                <div class="w-full h-6 bg-black/80 rounded-full overflow-hidden p-1 border border-white/20 relative">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-noc-peach via-noc-pink to-noc-purple rounded-full transition-all duration-500 ease-out w-0 shadow-neon-peach"></div>
+                </div>
+
+                <div class="mt-4 flex flex-wrap justify-between items-center text-xs text-gray-300 border-t border-white/10 pt-3 gap-2">
+                    <span id="last-saved-text" class="italic"><i class="fa-regular fa-floppy-disk mr-1 text-noc-peach"></i> Auto-saved to browser storage</span>
+                    <button id="reset-btn" class="text-red-400 hover:text-red-300 font-bold transition hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Progress
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        
+        <!-- Controls Bar -->
+        <div class="glass-panel p-5 rounded-2xl mb-8 flex flex-col gap-5 shadow-lg">
+            
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap justify-between items-center gap-2.5 w-full" id="category-tabs">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Divider Line -->
+            <div class="w-full border-t border-white/10"></div>
+
+            <!-- Controls: Search, Filter, Add Task -->
+            <div class="flex flex-col md:flex-row w-full gap-3 justify-between items-center">
+                
+                <!-- Search Input -->
+                <div class="relative w-full md:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="search-input" placeholder="Search tasks..." 
+                        class="w-full bg-black/60 border border-white/20 rounded-xl pl-10 pr-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-noc-peach transition">
+                </div>
+
+                <div class="flex flex-col sm:flex-row w-full md:w-auto gap-3 items-center">
+                    <!-- Status Filter Buttons -->
+                    <div class="flex bg-black/60 p-1 rounded-xl border border-white/20 w-full sm:w-auto justify-center">
+                        <button data-filter="all" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-noc-pink text-white">All</button>
+                        <button data-filter="active" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition">Pending</button>
+                        <button data-filter="completed" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-gray-400 hover:text-white transition">Completed</button>
+                    </div>
+
+                    <!-- Add Task Button -->
+                    <button id="open-add-modal-btn" class="w-full sm:w-auto bg-gradient-to-r from-noc-peach via-noc-pink to-noc-purple hover:opacity-90 text-white px-5 py-2 rounded-xl text-sm font-extrabold shadow-neon-peach transition hover:scale-105 transform flex items-center justify-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-plus"></i> Add Task
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Task List Area -->
+        <div class="glass-panel p-6 rounded-2xl border-white/10 min-h-[420px] shadow-2xl">
+            
+            <!-- Category Title & Stats -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/10 pb-4 mb-6 gap-2">
+                <div>
+                    <h2 id="current-category-title" class="text-2xl font-bold font-display tracking-wide text-white flex items-center gap-3">
+                        <i id="current-category-icon" class="fa-solid fa-list-check text-noc-peach"></i>
+                        <span>Story Missions</span>
+                    </h2>
+                    <p id="current-category-desc" class="text-xs text-gray-300 mt-1">Main storyline operations and heists across Vice City and Vice Dale.</p>
+                </div>
+                <div class="text-xs font-bold bg-black/60 px-3 py-1.5 rounded-xl border border-white/10 text-gray-200">
+                    Category Completed: <span id="category-progress-count" class="text-noc-peach font-black text-sm ml-1">0/0</span>
+                </div>
+            </div>
+
+            <!-- Tasks Container Grid -->
+            <div id="tasks-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Task Cards populated here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden flex-col items-center justify-center py-16 text-center">
+                <div class="w-16 h-16 rounded-full bg-noc-pink/20 flex items-center justify-center text-noc-pink text-2xl mb-4 border border-noc-pink/40 shadow-neon-pink">
+                    <i class="fa-solid fa-ghost"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-1">No tasks found</h3>
+                <p class="text-xs text-gray-400 max-w-sm">No items match your selected filter or search criteria.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal: Add Custom Task -->
+    <div id="add-task-modal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel p-6 sm:p-8 rounded-2xl max-w-md w-full border-noc-pink/50 shadow-neon-pink transform scale-95 transition-transform duration-300" id="modal-card">
+            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-3">
+                <h3 class="text-xl font-bold font-display text-white flex items-center gap-2">
+                    <i class="fa-solid fa-square-plus text-noc-peach"></i> Add Custom Task
+                </h3>
+                <button id="close-add-modal-btn" class="text-gray-400 hover:text-white transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="add-task-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-200 mb-1 uppercase tracking-wider">Task Title</label>
+                    <input type="text" id="task-title-input" required placeholder="e.g. Purchase Ocean View Safehouse"
+                        class="w-full bg-black/70 border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-noc-peach transition">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-200 mb-1 uppercase tracking-wider">Description (Optional)</label>
+                    <textarea id="task-desc-input" rows="2" placeholder="Location, reward, or special instructions..."
+                        class="w-full bg-black/70 border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-noc-peach transition"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-200 mb-1 uppercase tracking-wider">Category</label>
+                    <select id="task-category-select" class="w-full bg-black border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-noc-peach transition">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+                    <button type="button" id="cancel-add-modal-btn" class="px-4 py-2 rounded-xl text-xs font-bold text-gray-300 hover:bg-white/10 transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-5 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-noc-peach to-noc-pink text-white shadow-neon-peach hover:opacity-90 transition">
+                        Save Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirm Reset Modal -->
+    <div id="reset-modal" class="fixed inset-0 modal-bg z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel p-6 rounded-2xl max-w-sm w-full border-red-500/50 text-center shadow-2xl">
+            <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xl mx-auto mb-4 border border-red-500/40">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Reset All Progress?</h3>
+            <p class="text-xs text-gray-300 mb-6">This will reset all checkmarks and restore the original tasks list.</p>
+            <div class="flex gap-3 justify-center">
+                <button id="cancel-reset-btn" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold rounded-xl transition">
+                    Cancel
+                </button>
+                <button id="confirm-reset-btn" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-black rounded-xl shadow-lg transition">
+                    Yes, Reset All
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 glass-panel px-4 py-3 rounded-xl border-noc-peach/50 text-white text-sm shadow-neon-peach flex items-center gap-3 translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-noc-peach text-lg" id="toast-icon"></i>
+        <span id="toast-message" class="font-semibold">Changes saved successfully</span>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script>
+        const DEFAULT_CATEGORIES = [
+            {
+                id: 'story',
+                name: 'Story Missions',
+                icon: 'fa-solid fa-gun',
+                description: 'Main storyline operations featuring Jason & Lucia across Vice City & Leonida.'
+            },
+            {
+                id: 'side',
+                name: 'Side Quests',
+                icon: 'fa-solid fa-user-ninja',
+                description: 'Strangers, encounters, favors, and world side missions.'
+            },
+            {
+                id: 'collectibles',
+                name: 'Collectibles',
+                icon: 'fa-solid fa-gem',
+                description: 'Hidden packages, unique stunt jumps, spray art, and rare items.'
+            },
+            {
+                id: 'properties',
+                name: 'Properties & Vehicles',
+                icon: 'fa-solid fa-building-user',
+                description: 'Safehouses, businesses, garages, high-end supercars, and boats.'
+            },
+            {
+                id: 'achievements',
+                name: 'Achievements & Trophies',
+                icon: 'fa-solid fa-trophy',
+                description: 'In-game milestones required for complete 100% status.'
+            }
+        ];
+
+        const DEFAULT_TASKS = [
+            { id: 's1', catId: 'story', title: 'Prologue: Prison Breakout', desc: 'Lucia\'s escape and introduction in Vice Dale.', completed: false, isCustom: false },
+            { id: 's2', catId: 'story', title: 'First Joint Heist', desc: 'Jason & Lucia rob a local convenience store network.', completed: false, isCustom: false },
+            { id: 's3', catId: 'story', title: 'Welcome to Vice City', desc: 'Arrive at Ocean Drive and set up the main safehouse.', completed: false, isCustom: false },
+            { id: 's4', catId: 'story', title: 'Motel Hideout Ambush', desc: 'Retrieve the stolen cash bag from rival gangs.', completed: false, isCustom: false },
+            { id: 's5', catId: 'story', title: 'Everglades Airboat Dash', desc: 'High-speed swamp pursuit in the Leonida Wetlands.', completed: false, isCustom: false },
+            { id: 's6', catId: 'story', title: 'Port Gellhorn Bank Job', desc: 'Infiltrate and rob the regional vault.', completed: false, isCustom: false },
+
+            { id: 'q1', catId: 'side', title: 'Vice Online Streamer Encounter', desc: 'Assist a viral influencer during a live stunt.', completed: false, isCustom: false },
+            { id: 'q2', catId: 'side', title: 'Gator Wrangler Bounties (0/5)', desc: 'Clear dangerous wildlife from residential zones.', completed: false, isCustom: false },
+            { id: 'q3', catId: 'side', title: 'Vice Beach Street Race Circuit', desc: 'Win first place in all 4 midnight drag races.', completed: false, isCustom: false },
+            { id: 'q4', catId: 'side', title: 'Low-Altitude Smuggling Drops', desc: 'Deliver 3 contraband packages under radar lock.', completed: false, isCustom: false },
+
+            { id: 'c1', catId: 'collectibles', title: 'Hidden Packages (0/50)', desc: 'Locate all contraband packages hidden around the map.', completed: false, isCustom: false },
+            { id: 'c2', catId: 'collectibles', title: 'Unique Stunt Jumps (0/25)', desc: 'Land successfully on designated stunt ramps.', completed: false, isCustom: false },
+            { id: 'c3', catId: 'collectibles', title: 'Neon Graffiti Murals (0/30)', desc: 'Photograph Vice City street art pieces.', completed: false, isCustom: false },
+
+            { id: 'p1', catId: 'properties', title: 'Acquire Ocean View Penthouse', desc: 'Purchase the premium beachfront property.', completed: false, isCustom: false },
+            { id: 'p2', catId: 'properties', title: 'Malibu Nightclub Business', desc: 'Buy ownership of the iconic nightlife venue.', completed: false, isCustom: false },
+            { id: 'p3', catId: 'properties', title: 'Malibu Pro Luxury Yacht', desc: 'Purchase a private yacht docked at Port Vice.', completed: false, isCustom: false },
+            { id: 'p4', catId: 'properties', title: 'Store Grotti Turismo Supercar', desc: 'Acquire and store the rare sports car in your garage.', completed: false, isCustom: false },
+
+            { id: 'a1', catId: 'achievements', title: 'Vice City Royalty', desc: 'Achieve 100% total completion of the entire game.', completed: false, isCustom: false },
+            { id: 'a2', catId: 'achievements', title: 'Leonida Man', desc: 'Survive 5 full minutes with a 5-star wanted level.', completed: false, isCustom: false },
+            { id: 'a3', catId: 'achievements', title: 'Speed Demon', desc: 'Reach maximum speed in a modified supercar on the highway.', completed: false, isCustom: false }
+        ];
+
+        let categories = [];
+        let tasks = [];
+        let currentCategoryId = 'story';
+        let currentFilter = 'all'; 
+        let searchQuery = '';
+
+        const categoryTabsEl = document.getElementById('category-tabs');
+        const tasksContainerEl = document.getElementById('tasks-container');
+        const emptyStateEl = document.getElementById('empty-state');
+        const searchInputEl = document.getElementById('search-input');
+        const currentCategoryTitleEl = document.getElementById('current-category-title');
+        const currentCategoryDescEl = document.getElementById('current-category-desc');
+        const currentCategoryIconEl = document.getElementById('current-category-icon');
+        const categoryProgressCountEl = document.getElementById('category-progress-count');
+        const progressBarEl = document.getElementById('progress-bar');
+        const progressPercentEl = document.getElementById('progress-percent');
+        const progressTextEl = document.getElementById('progress-text');
+
+        const addTaskModalEl = document.getElementById('add-task-modal');
+        const openAddModalBtn = document.getElementById('open-add-modal-btn');
+        const closeAddModalBtn = document.getElementById('close-add-modal-btn');
+        const cancelAddModalBtn = document.getElementById('cancel-add-modal-btn');
+        const addTaskForm = document.getElementById('add-task-form');
+        const taskCategorySelect = document.getElementById('task-category-select');
+
+        const resetModalEl = document.getElementById('reset-modal');
+        const resetBtn = document.getElementById('reset-btn');
+        const cancelResetBtn = document.getElementById('cancel-reset-btn');
+        const confirmResetBtn = document.getElementById('confirm-reset-btn');
+
+        const toastEl = document.getElementById('toast');
+        const toastMessageEl = document.getElementById('toast-message');
+
+        function initApp() {
+            loadFromLocalStorage();
+            renderCategories();
+            populateCategorySelect();
+            renderTasks();
+            updateProgress();
+            setupEventListeners();
+        }
+
+        function loadFromLocalStorage() {
+            const savedTasks = localStorage.getItem('nocturnal_gta6_checklist_v3');
+            if (savedTasks) {
+                try {
+                    tasks = JSON.parse(savedTasks);
+                } catch (e) {
+                    console.error("Error loading saved tasks:", e);
+                    tasks = [...DEFAULT_TASKS];
+                }
+            } else {
+                tasks = [...DEFAULT_TASKS];
+            }
+            categories = [...DEFAULT_CATEGORIES];
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('nocturnal_gta6_checklist_v3', JSON.stringify(tasks));
+            updateProgress();
+        }
+
+        function renderCategories() {
+            categoryTabsEl.innerHTML = '';
+            categories.forEach(cat => {
+                const isActive = cat.id === currentCategoryId;
+                const btn = document.createElement('button');
+                btn.className = `flex-1 min-w-[140px] h-11 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all duration-200 border-0 outline-none ${
+                    isActive 
+                        ? 'bg-gradient-to-r from-noc-peach via-noc-pink to-noc-purple text-white shadow-neon-peach opacity-100 scale-101' 
+                        : 'bg-gradient-to-r from-noc-peach via-noc-pink to-noc-purple text-white opacity-60 hover:opacity-90 hover:scale-101'
+                }`;
+                btn.innerHTML = `<i class="${cat.icon}"></i> <span>${cat.name}</span>`;
+                btn.addEventListener('click', () => {
+                    currentCategoryId = cat.id;
+                    renderCategories();
+                    renderTasks();
+                });
+                categoryTabsEl.appendChild(btn);
+            });
+
+            const activeCategory = categories.find(c => c.id === currentCategoryId);
+            if (activeCategory) {
+                currentCategoryTitleEl.querySelector('span').textContent = activeCategory.name;
+                currentCategoryDescEl.textContent = activeCategory.description;
+                currentCategoryIconEl.className = `${activeCategory.icon} text-noc-peach`;
+            }
+        }
+
+        function populateCategorySelect() {
+            taskCategorySelect.innerHTML = '';
+            categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.id;
+                opt.textContent = cat.name;
+                taskCategorySelect.appendChild(opt);
+            });
+        }
+
+        function renderTasks() {
+            tasksContainerEl.innerHTML = '';
+
+            let filtered = tasks.filter(t => t.catId === currentCategoryId);
+
+            if (searchQuery.trim() !== '') {
+                const query = searchQuery.toLowerCase();
+                filtered = filtered.filter(t => 
+                    t.title.toLowerCase().includes(query) || 
+                    (t.desc && t.desc.toLowerCase().includes(query))
+                );
+            }
+
+            if (currentFilter === 'active') {
+                filtered = filtered.filter(t => !t.completed);
+            } else if (currentFilter === 'completed') {
+                filtered = filtered.filter(t => t.completed);
+            }
+
+            const totalCatTasks = tasks.filter(t => t.catId === currentCategoryId).length;
+            const completedCatTasks = tasks.filter(t => t.catId === currentCategoryId && t.completed).length;
+            categoryProgressCountEl.textContent = `${completedCatTasks} / ${totalCatTasks}`;
+
+            if (filtered.length === 0) {
+                emptyStateEl.classList.remove('hidden');
+                emptyStateEl.classList.add('flex');
+            } else {
+                emptyStateEl.classList.add('hidden');
+                emptyStateEl.classList.remove('flex');
+            }
+
+            filtered.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = `glass-card p-4 rounded-xl flex items-start justify-between gap-3 group relative overflow-hidden ${
+                    task.completed ? 'border-noc-pink/30 bg-black/40' : ''
+                }`;
+
+                taskCard.innerHTML = `
+                    <div class="flex items-start gap-3 w-full">
+                        <label class="relative flex items-center justify-center cursor-pointer mt-0.5 select-none">
+                            <input type="checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}" class="task-checkbox sr-only">
+                            <div class="checkbox-custom w-5 h-5 rounded-md border-2 border-gray-400 flex items-center justify-center transition-all bg-black/60">
+                                <i class="fa-solid fa-check text-white text-xs ${task.completed ? 'block' : 'hidden'}"></i>
+                            </div>
+                        </label>
+                        <div class="flex-1 cursor-pointer" onclick="toggleTaskStatus('${task.id}')">
+                            <h4 class="task-title font-bold text-sm sm:text-base text-gray-100 transition ${task.completed ? 'line-through text-gray-400' : ''}">
+                                ${escapeHtml(task.title)}
+                                ${task.isCustom ? '<span class="ml-2 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-noc-pink/30 text-noc-peach border border-noc-peach/40 uppercase">Custom</span>' : ''}
+                            </h4>
+                            ${task.desc ? `<p class="text-xs text-gray-300 mt-1 line-clamp-2">${escapeHtml(task.desc)}</p>` : ''}
+                        </div>
+                    </div>
+                    <button onclick="deleteTask('${task.id}')" title="Delete Task" 
+                        class="text-gray-400 hover:text-red-400 p-1.5 rounded-lg hover:bg-white/10 transition opacity-80 sm:opacity-0 sm:group-hover:opacity-100">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                `;
+
+                const checkbox = taskCard.querySelector('.task-checkbox');
+                checkbox.addEventListener('change', (e) => {
+                    toggleTaskStatus(task.id, e.target.checked);
+                });
+
+                tasksContainerEl.appendChild(taskCard);
+            });
+        }
+
+        function toggleTaskStatus(taskId, forceState = null) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = forceState !== null ? forceState : !task.completed;
+                saveToLocalStorage();
+                renderTasks();
+            }
+        }
+
+        function deleteTask(taskId) {
+            tasks = tasks.filter(t => t.id !== taskId);
+            saveToLocalStorage();
+            renderTasks();
+            showToast('Task removed');
+        }
+
+        function updateProgress() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+            progressBarEl.style.width = `${percentage}%`;
+            progressPercentEl.textContent = `${percentage}%`;
+            progressTextEl.textContent = `${completed} / ${total}`;
+        }
+
+        function addNewTask(title, desc, categoryId) {
+            const newTask = {
+                id: 'custom_' + Date.now(),
+                catId: categoryId,
+                title: title,
+                desc: desc,
+                completed: false,
+                isCustom: true
+            };
+
+            tasks.push(newTask);
+            saveToLocalStorage();
+            
+            currentCategoryId = categoryId;
+            renderCategories();
+            renderTasks();
+
+            showToast('New task added successfully!');
+        }
+
+        function showToast(message) {
+            toastMessageEl.textContent = message;
+            toastEl.classList.remove('translate-y-20', 'opacity-0');
+            toastEl.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toastEl.classList.remove('translate-y-0', 'opacity-100');
+                toastEl.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function setupEventListeners() {
+            searchInputEl.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderTasks();
+            });
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('bg-noc-pink', 'text-white');
+                        b.classList.add('text-gray-400');
+                    });
+                    
+                    btn.classList.add('bg-noc-pink', 'text-white');
+                    btn.classList.remove('text-gray-400');
+
+                    currentFilter = btn.dataset.filter;
+                    renderTasks();
+                });
+            });
+
+            openAddModalBtn.addEventListener('click', () => {
+                taskCategorySelect.value = currentCategoryId;
+                addTaskModalEl.classList.remove('hidden');
+                setTimeout(() => {
+                    addTaskModalEl.classList.remove('opacity-0');
+                    document.getElementById('modal-card').classList.remove('scale-95');
+                }, 10);
+            });
+
+            function closeModal() {
+                addTaskModalEl.classList.add('opacity-0');
+                document.getElementById('modal-card').classList.add('scale-95');
+                setTimeout(() => {
+                    addTaskModalEl.classList.add('hidden');
+                    addTaskForm.reset();
+                }, 300);
+            }
+
+            closeAddModalBtn.addEventListener('click', closeModal);
+            cancelAddModalBtn.addEventListener('click', closeModal);
+
+            addTaskForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const title = document.getElementById('task-title-input').value.trim();
+                const desc = document.getElementById('task-desc-input').value.trim();
+                const categoryId = taskCategorySelect.value;
+
+                if (title) {
+                    addNewTask(title, desc, categoryId);
+                    closeModal();
+                }
+            });
+
+            resetBtn.addEventListener('click', () => {
+                resetModalEl.classList.remove('hidden');
+                setTimeout(() => resetModalEl.classList.remove('opacity-0'), 10);
+            });
+
+            function closeResetModal() {
+                resetModalEl.classList.add('opacity-0');
+                setTimeout(() => resetModalEl.classList.add('hidden'), 300);
+            }
+
+            cancelResetBtn.addEventListener('click', closeResetModal);
+
+            confirmResetBtn.addEventListener('click', () => {
+                localStorage.removeItem('nocturnal_gta6_checklist_v3');
+                tasks = [...DEFAULT_TASKS];
+                saveToLocalStorage();
+                renderTasks();
+                closeResetModal();
+                showToast('Progress reset to defaults');
+            });
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;")
+                      .replace(/</g, "&lt;")
+                      .replace(/>/g, "&gt;")
+                      .replace(/"/g, "&quot;")
+                      .replace(/'/g, "&#039;");
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
