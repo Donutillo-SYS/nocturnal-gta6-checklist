@@ -45,17 +45,21 @@
     </script>
 
     <style>
-        /* GTA VI Sunset Key Art Background */
+        /* GTA VI Vice City Sunset Wallpaper Background */
         body {
             background-color: #120c24;
             background-image: 
-                linear-gradient(rgba(18, 12, 36, 0.55), rgba(18, 12, 36, 0.75)),
+                linear-gradient(rgba(18, 12, 36, 0.5), rgba(18, 12, 36, 0.75)),
+                url('c253485d63ff9382fa07c41333af86b4.jpg'),
+                url('background.jpg'),
+                url('https://raw.githubusercontent.com/Donutillo-SYS/nocturnal-gta6-checklist/main/background.jpg'),
                 url('https://images.alphacoders.com/134/1342689.jpeg');
             background-attachment: fixed;
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             min-height: 100vh;
+            width: 100%;
         }
 
         /* Glassmorphism containers */
@@ -124,65 +128,12 @@
     <header class="relative z-10 pt-8 pb-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div class="flex flex-col items-center text-center">
             
-            <!-- Logo Container -->
-            <div class="mb-4 transform hover:scale-105 transition-transform duration-300">
-                <svg width="180" height="180" viewBox="0 0 200 200" class="drop-shadow-[0_0_35px_rgba(255,171,94,0.65)]" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <!-- Sunset Outer Frame Gradient -->
-                        <linearGradient id="exactFrameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#f89252"/>
-                            <stop offset="35%" stop-color="#cf508c"/>
-                            <stop offset="70%" stop-color="#733b82"/>
-                            <stop offset="100%" stop-color="#3c316d"/>
-                        </linearGradient>
-
-                        <!-- Inner Cutout Shadow Filter -->
-                        <filter id="innerCutoutShadow" x="-10%" y="-10%" width="120%" height="120%">
-                            <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.6"/>
-                        </filter>
-
-                        <!-- White Glow Effect for N -->
-                        <filter id="pureWhiteGlow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="3" result="glow"/>
-                            <feMerge>
-                                <feMergeNode in="glow"/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
-                    </defs>
-
-                    <!-- Outer Frame -->
-                    <rect x="8" y="8" width="184" height="184" rx="32" fill="url(#exactFrameGradient)" />
-
-                    <!-- Inner Dark Inset Box -->
-                    <rect x="32" y="32" width="136" height="136" rx="12" fill="#110a20" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5" filter="url(#innerCutoutShadow)" />
-
-                    <!-- Pure White Central NOCTURNAL 'N' -->
-                    <path d="M 52 50 
-                             H 82 
-                             V 62 
-                             H 74 
-                             V 138 
-                             H 82 
-                             V 150 
-                             H 52 
-                             V 138 
-                             H 60 
-                             V 62 
-                             H 52 
-                             Z 
-                             M 60 50 
-                             H 80 
-                             L 122 138 
-                             V 50 
-                             H 148 
-                             V 150 
-                             H 122 
-                             L 68 50 
-                             Z"
-                          fill="#ffffff"
-                          filter="url(#pureWhiteGlow)" />
-                </svg>
+            <!-- Logo Container loading Bez názvu.svg frame WITHOUT 'N' inner overlay -->
+            <div class="mb-4 transform hover:scale-105 transition-transform duration-300 relative w-44 h-44 flex items-center justify-center">
+                <img src="https://raw.githubusercontent.com/Donutillo-SYS/nocturnal-gta6-checklist/main/Bez%20n%C3%A1zvu.svg" 
+                     alt="NOCTURNAL Logo" 
+                     class="w-full h-full drop-shadow-[0_0_35px_rgba(255,171,94,0.65)] object-contain"
+                     onerror="this.onerror=null; this.src='Bez%20n%C3%A1zvu.svg';" />
             </div>
 
             <!-- Title & Subtitle -->
@@ -367,6 +318,8 @@
 
     <!-- Application Script Logic -->
     <script>
+        const STORAGE_KEY = 'nocturnal_gta6_checklist_v4_fixed';
+
         const DEFAULT_CATEGORIES = [
             {
                 id: 'story',
@@ -400,7 +353,17 @@
             }
         ];
 
+        // Helper to generate explicit sub-items
+        function generateSubItems(prefix, count, label) {
+            const list = [];
+            for (let i = 1; i <= count; i++) {
+                list.push({ id: prefix + '_' + i, title: label + ' #' + i, completed: false });
+            }
+            return list;
+        }
+
         const DEFAULT_TASKS = [
+            // Story Missions
             { id: 's1', catId: 'story', title: 'Prologue: Prison Breakout', desc: 'Lucia\'s escape and introduction in Vice Dale.', completed: false, isCustom: false },
             { id: 's2', catId: 'story', title: 'First Joint Heist', desc: 'Jason & Lucia rob a local convenience store network.', completed: false, isCustom: false },
             { id: 's3', catId: 'story', title: 'Welcome to Vice City', desc: 'Arrive at Ocean Drive and set up the main safehouse.', completed: false, isCustom: false },
@@ -408,20 +371,24 @@
             { id: 's5', catId: 'story', title: 'Everglades Airboat Dash', desc: 'High-speed swamp pursuit in the Leonida Wetlands.', completed: false, isCustom: false },
             { id: 's6', catId: 'story', title: 'Port Gellhorn Bank Job', desc: 'Infiltrate and rob the regional vault.', completed: false, isCustom: false },
 
+            // Side Quests
             { id: 'q1', catId: 'side', title: 'Vice Online Streamer Encounter', desc: 'Assist a viral influencer during a live stunt.', completed: false, isCustom: false },
-            { id: 'q2', catId: 'side', title: 'Gator Wrangler Bounties (0/5)', desc: 'Clear dangerous wildlife from residential zones.', completed: false, isCustom: false },
-            { id: 'q3', catId: 'side', title: 'Vice Beach Street Race Circuit', desc: 'Win first place in all 4 midnight drag races.', completed: false, isCustom: false },
-            { id: 'q4', catId: 'side', title: 'Low-Altitude Smuggling Drops', desc: 'Deliver 3 contraband packages under radar lock.', completed: false, isCustom: false },
+            { id: 'q2', catId: 'side', title: 'Gator Wrangler Bounties', desc: 'Clear dangerous wildlife from residential zones.', completed: false, isCustom: false, subItems: generateSubItems('gator', 5, 'Gator Bounty') },
+            { id: 'q3', catId: 'side', title: 'Vice Beach Street Race Circuit', desc: 'Win first place in all 4 midnight drag races.', completed: false, isCustom: false, subItems: generateSubItems('race', 4, 'Street Race') },
+            { id: 'q4', catId: 'side', title: 'Low-Altitude Smuggling Drops', desc: 'Deliver 3 contraband packages under radar lock.', completed: false, isCustom: false, subItems: generateSubItems('drop', 3, 'Smuggling Drop') },
 
-            { id: 'c1', catId: 'collectibles', title: 'Hidden Packages (0/50)', desc: 'Locate all contraband packages hidden around the map.', completed: false, isCustom: false },
-            { id: 'c2', catId: 'collectibles', title: 'Unique Stunt Jumps (0/25)', desc: 'Land successfully on designated stunt ramps.', completed: false, isCustom: false },
-            { id: 'c3', catId: 'collectibles', title: 'Neon Graffiti Murals (0/30)', desc: 'Photograph Vice City street art pieces.', completed: false, isCustom: false },
+            // Collectibles (explicit sub-item lists)
+            { id: 'c1', catId: 'collectibles', title: 'Hidden Packages', desc: 'Locate all contraband packages hidden around the map.', completed: false, isCustom: false, subItems: generateSubItems('pkg', 50, 'Hidden Package') },
+            { id: 'c2', catId: 'collectibles', title: 'Unique Stunt Jumps', desc: 'Land successfully on designated stunt ramps.', completed: false, isCustom: false, subItems: generateSubItems('jump', 25, 'Stunt Jump') },
+            { id: 'c3', catId: 'collectibles', title: 'Neon Graffiti Murals', desc: 'Photograph Vice City street art pieces.', completed: false, isCustom: false, subItems: generateSubItems('graffiti', 30, 'Graffiti Mural') },
 
+            // Properties & Vehicles
             { id: 'p1', catId: 'properties', title: 'Acquire Ocean View Penthouse', desc: 'Purchase the premium beachfront property.', completed: false, isCustom: false },
             { id: 'p2', catId: 'properties', title: 'Malibu Nightclub Business', desc: 'Buy ownership of the iconic nightlife venue.', completed: false, isCustom: false },
             { id: 'p3', catId: 'properties', title: 'Malibu Pro Luxury Yacht', desc: 'Purchase a private yacht docked at Port Vice.', completed: false, isCustom: false },
             { id: 'p4', catId: 'properties', title: 'Store Grotti Turismo Supercar', desc: 'Acquire and store the rare sports car in your garage.', completed: false, isCustom: false },
 
+            // Achievements
             { id: 'a1', catId: 'achievements', title: 'Vice City Royalty', desc: 'Achieve 100% total completion of the entire game.', completed: false, isCustom: false },
             { id: 'a2', catId: 'achievements', title: 'Leonida Man', desc: 'Survive 5 full minutes with a 5-star wanted level.', completed: false, isCustom: false },
             { id: 'a3', catId: 'achievements', title: 'Speed Demon', desc: 'Reach maximum speed in a modified supercar on the highway.', completed: false, isCustom: false }
@@ -432,6 +399,7 @@
         let currentCategoryId = 'story';
         let currentFilter = 'all'; 
         let searchQuery = '';
+        let openDropdowns = new Set();
 
         const categoryTabsEl = document.getElementById('category-tabs');
         const tasksContainerEl = document.getElementById('tasks-container');
@@ -470,22 +438,21 @@
         }
 
         function loadFromLocalStorage() {
-            const savedTasks = localStorage.getItem('nocturnal_gta6_checklist_v3');
-            if (savedTasks) {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
                 try {
-                    tasks = JSON.parse(savedTasks);
+                    tasks = JSON.parse(saved);
                 } catch (e) {
-                    console.error("Error loading saved tasks:", e);
-                    tasks = [...DEFAULT_TASKS];
+                    tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
                 }
             } else {
-                tasks = [...DEFAULT_TASKS];
+                tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
             }
             categories = [...DEFAULT_CATEGORIES];
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('nocturnal_gta6_checklist_v3', JSON.stringify(tasks));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
             updateProgress();
         }
 
@@ -535,7 +502,8 @@
                 const query = searchQuery.toLowerCase();
                 filtered = filtered.filter(t => 
                     t.title.toLowerCase().includes(query) || 
-                    (t.desc && t.desc.toLowerCase().includes(query))
+                    (t.desc && t.desc.toLowerCase().includes(query)) ||
+                    (t.subItems && t.subItems.some(sub => sub.title.toLowerCase().includes(query)))
                 );
             }
 
@@ -558,31 +526,74 @@
             }
 
             filtered.forEach(task => {
+                const hasSubItems = Boolean(task.subItems && task.subItems.length > 0);
+                const completedSubCount = hasSubItems ? task.subItems.filter(s => s.completed).length : 0;
+                const totalSubCount = hasSubItems ? task.subItems.length : 0;
+                const isDropdownOpen = openDropdowns.has(task.id);
+
                 const taskCard = document.createElement('div');
-                taskCard.className = `glass-card p-4 rounded-xl flex items-start justify-between gap-3 group relative overflow-hidden ${
+                taskCard.className = `glass-card p-4 rounded-xl flex flex-col gap-3 group relative overflow-hidden ${
                     task.completed ? 'border-noc-pink/30 bg-black/40' : ''
                 }`;
 
-                taskCard.innerHTML = `
-                    <div class="flex items-start gap-3 w-full">
-                        <label class="relative flex items-center justify-center cursor-pointer mt-0.5 select-none">
-                            <input type="checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}" class="task-checkbox sr-only">
-                            <div class="checkbox-custom w-5 h-5 rounded-md border-2 border-gray-400 flex items-center justify-center transition-all bg-black/60">
-                                <i class="fa-solid fa-check text-white text-xs ${task.completed ? 'block' : 'hidden'}"></i>
+                let subItemsHtml = '';
+                if (hasSubItems) {
+                    subItemsHtml = `
+                        <div class="mt-2 pt-3 border-t border-white/10 ${isDropdownOpen ? 'block' : 'hidden'}" id="dropdown-${task.id}">
+                            <div class="flex justify-between items-center mb-2 px-1">
+                                <span class="text-[11px] font-bold text-noc-peach uppercase tracking-wider">Item Checklist (${completedSubCount}/${totalSubCount})</span>
+                                <button onclick="toggleAllSubItems('${task.id}')" class="text-[11px] text-noc-peach hover:underline font-bold bg-black/40 px-2 py-0.5 rounded border border-noc-peach/30">
+                                    ${completedSubCount === totalSubCount ? 'Uncheck All' : 'Check All'}
+                                </button>
                             </div>
-                        </label>
-                        <div class="flex-1 cursor-pointer" onclick="toggleTaskStatus('${task.id}')">
-                            <h4 class="task-title font-bold text-sm sm:text-base text-gray-100 transition ${task.completed ? 'line-through text-gray-400' : ''}">
-                                ${escapeHtml(task.title)}
-                                ${task.isCustom ? '<span class="ml-2 text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-noc-pink/30 text-noc-peach border border-noc-peach/40 uppercase">Custom</span>' : ''}
-                            </h4>
-                            ${task.desc ? `<p class="text-xs text-gray-300 mt-1 line-clamp-2">${escapeHtml(task.desc)}</p>` : ''}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1">
+                                ${task.subItems.map(sub => `
+                                    <label class="flex items-center gap-2 bg-black/40 p-2 rounded-lg border border-white/5 hover:border-white/20 cursor-pointer transition select-none">
+                                        <input type="checkbox" ${sub.completed ? 'checked' : ''} onchange="toggleSubItemStatus('${task.id}', '${sub.id}', this.checked)" class="sr-only">
+                                        <div class="checkbox-custom w-4 h-4 rounded border border-gray-400 flex items-center justify-center transition-all bg-black/60 shrink-0">
+                                            <i class="fa-solid fa-check text-white text-[10px] ${sub.completed ? 'block' : 'hidden'}"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-300 font-medium ${sub.completed ? 'line-through text-gray-500' : ''}">
+                                            ${escapeHtml(sub.title)}
+                                        </span>
+                                    </label>
+                                `).join('')}
+                            </div>
                         </div>
+                    `;
+                }
+
+                taskCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-3 w-full">
+                        <div class="flex items-start gap-3 w-full">
+                            <label class="relative flex items-center justify-center cursor-pointer mt-0.5 select-none shrink-0" title="Mark as fully completed">
+                                <input type="checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}" class="task-checkbox sr-only">
+                                <div class="checkbox-custom w-5 h-5 rounded-md border-2 border-gray-400 flex items-center justify-center transition-all bg-black/60">
+                                    <i class="fa-solid fa-check text-white text-xs ${task.completed ? 'block' : 'hidden'}"></i>
+                                </div>
+                            </label>
+                            <div class="flex-1">
+                                <h4 class="task-title font-bold text-sm sm:text-base text-gray-100 transition flex items-center gap-2 flex-wrap ${task.completed ? 'line-through text-gray-400' : ''}">
+                                    <span>${escapeHtml(task.title)}</span>
+                                    ${hasSubItems ? `<span class="text-xs font-black text-noc-peach bg-black/60 px-2 py-0.5 rounded-md border border-noc-peach/30">(${completedSubCount}/${totalSubCount})</span>` : ''}
+                                    ${task.isCustom ? '<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-noc-pink/30 text-noc-peach border border-noc-peach/40 uppercase">Custom</span>' : ''}
+                                </h4>
+                                ${task.desc ? `<p class="text-xs text-gray-300 mt-1">${escapeHtml(task.desc)}</p>` : ''}
+                                
+                                ${hasSubItems ? `
+                                    <button onclick="toggleDropdown('${task.id}')" class="mt-2 text-xs font-bold text-noc-peach hover:text-white flex items-center gap-1.5 bg-black/50 px-3 py-1 rounded-lg border border-white/10 transition">
+                                        <i class="fa-solid ${isDropdownOpen ? 'fa-chevron-up' : 'fa-chevron-down'} text-[10px]"></i>
+                                        <span>${isDropdownOpen ? 'Hide Items' : 'View / Check ' + totalSubCount + ' Items'}</span>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <button onclick="deleteTask('${task.id}')" title="Delete Task" 
+                            class="text-gray-400 hover:text-red-400 p-1.5 rounded-lg hover:bg-white/10 transition opacity-80 sm:opacity-0 sm:group-hover:opacity-100 shrink-0">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
                     </div>
-                    <button onclick="deleteTask('${task.id}')" title="Delete Task" 
-                        class="text-gray-400 hover:text-red-400 p-1.5 rounded-lg hover:bg-white/10 transition opacity-80 sm:opacity-0 sm:group-hover:opacity-100">
-                        <i class="fa-solid fa-trash-can text-sm"></i>
-                    </button>
+                    ${subItemsHtml}
                 `;
 
                 const checkbox = taskCard.querySelector('.task-checkbox');
@@ -594,10 +605,49 @@
             });
         }
 
+        function toggleDropdown(taskId) {
+            if (openDropdowns.has(taskId)) {
+                openDropdowns.delete(taskId);
+            } else {
+                openDropdowns.add(taskId);
+            }
+            renderTasks();
+        }
+
+        function toggleSubItemStatus(taskId, subId, forceState) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.subItems) {
+                const sub = task.subItems.find(s => s.id === subId);
+                if (sub) {
+                    sub.completed = forceState;
+                    const allDone = task.subItems.every(s => s.completed);
+                    task.completed = allDone;
+                    saveToLocalStorage();
+                    renderTasks();
+                }
+            }
+        }
+
+        function toggleAllSubItems(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task && task.subItems) {
+                const allDone = task.subItems.every(s => s.completed);
+                const newState = !allDone;
+                task.subItems.forEach(s => s.completed = newState);
+                task.completed = newState;
+                saveToLocalStorage();
+                renderTasks();
+            }
+        }
+
         function toggleTaskStatus(taskId, forceState = null) {
             const task = tasks.find(t => t.id === taskId);
             if (task) {
-                task.completed = forceState !== null ? forceState : !task.completed;
+                const newState = forceState !== null ? forceState : !task.completed;
+                task.completed = newState;
+                if (task.subItems) {
+                    task.subItems.forEach(s => s.completed = newState);
+                }
                 saveToLocalStorage();
                 renderTasks();
             }
@@ -611,6 +661,7 @@
         }
 
         function updateProgress() {
+            // Main tasks count as 1 total unit each
             const total = tasks.length;
             const completed = tasks.filter(t => t.completed).length;
             const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
@@ -718,10 +769,12 @@
             cancelResetBtn.addEventListener('click', closeResetModal);
 
             confirmResetBtn.addEventListener('click', () => {
-                localStorage.removeItem('nocturnal_gta6_checklist_v3');
-                tasks = [...DEFAULT_TASKS];
+                localStorage.removeItem(STORAGE_KEY);
+                tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
                 saveToLocalStorage();
+                renderCategories();
                 renderTasks();
+                updateProgress();
                 closeResetModal();
                 showToast('Progress reset to defaults');
             });
